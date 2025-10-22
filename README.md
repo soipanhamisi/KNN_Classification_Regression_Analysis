@@ -17,7 +17,7 @@ This project uses the "No Show Appointments" dataset to build and evaluate KNN m
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/KNN_Classification_Regression_Analysis.git
+   git clone https://https://github.com/soipanhamisi/KNN_Classification_Regression_Analysis.git
    cd KNN_Classification_Regression_Analysis
    ```
 
