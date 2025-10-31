@@ -1,103 +1,175 @@
-# KNN Classification & Regression Analysis
 
-A machine learning project analyzing the No-Show Appointments dataset from Kaggle using K-Nearest Neighbors algorithms to predict patient appointment attendance.
+# Machine Learning Assignment 2 - KNN Analysis
 
-## 📋 Overview
+This repository contains a comprehensive analysis using K-Nearest Neighbors (KNN) algorithm for both classification and regression tasks.
 
-This project uses the "No Show Appointments" dataset to build and evaluate KNN models for predicting whether patients will miss their scheduled medical appointments. The analysis includes comprehensive data preprocessing, feature engineering, label encoding, and model implementation with hyperparameter tuning.
+## 📋 Project Overview
 
-## 🚀 Setup Instructions
+This assignment demonstrates the application of KNN algorithm on two distinct datasets:
+1. **Medical No-Show Appointments** (Classification Task)
+2. **Concrete Compressive Strength** (Regression Task)
+
+## 🗂️ Project Structure
+
+.  
+├── notebooks/  
+│   └── `assignment_2.ipynb`  
+├── `README.md`  
+├── `requirements.txt`    
+└── `.gitignore`
+
+## 📊 Datasets
+
+### 1. No-Show Appointments Dataset (Kaggle)
+- **Source**: Kaggle - `joniarroba/noshowappointments`
+- **Task**: Binary classification (predict patient no-show)
+- **Features**: Patient demographics, appointment details, medical conditions
+- **Target**: No-show status (Yes/No)
+
+### 2. Concrete Compressive Strength Dataset (UCI)
+- **Source**: UCI Machine Learning Repository (ID: 165)
+- **Task**: Regression (predict compressive strength)
+- **Features**: Cement, Blast Furnace Slag, Fly Ash, Water, Superplasticizer, Coarse Aggregate, Fine Aggregate, Age
+- **Target**: Compressive Strength (MPa)
+
+## 🔧 Installation
 
 ### Prerequisites
+- Python 3.12.6
+- virtualenv
 
-- Python 3.12 or higher
-- pip (Python package manager)
+### Setup
 
-### Installation
+1. Clone the repository:
+```
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/soipanhamisi/KNN_Classification_Regression_Analysis.git
-   cd KNN_Classification_Regression_Analysis
-   ```
+bash git clone <repository-url> cd <repository-name>``` 
 
-2. **Create and activate virtual environment**
-   ```bash
-   # Windows
-   python -m venv .venv
-   .venv\Scripts\activate
+2. Create and activate virtual environment:
+```
 
-   # macOS/Linux
-   python3 -m venv .venv
-   source .venv/bin/activate
-   ```
+bash python -m venv venv source venv/bin/activate # On Windows: venv\Scripts\activate``` 
 
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+3. Install dependencies:
+```
 
-4. **Run the analysis**
-   - Open `notebooks/assignment_2.ipynb` in Jupyter Notebook or your IDE
-   - Run cells sequentially
-   - The dataset will be automatically downloaded from Kaggle on first run
+bash pip install -r requirements.txt``` 
 
-## 📊 Dataset
+## 🚀 Usage
 
-**Source:** [No Show Appointments Dataset](https://www.kaggle.com/datasets/joniarroba/noshowappointments)
+1. Launch Jupyter Notebook:
+```
 
-The dataset contains medical appointment records with patient demographics, appointment details, and no-show outcomes.
+bash jupyter notebook``` 
 
-### Dataset Features
+2. Open `notebooks/assignment_2.ipynb`
 
-The analysis works with the following features:
+3. Run all cells sequentially
 
-- **Gender**: Encoded as binary (0=Male, 1=Female)
-- **Age**: Patient age
-- **Neighbourhood**: 80 unique neighborhoods (label encoded 0-79)
-- **Scholarship**: Whether patient has scholarship (0/1)
-- **Hipertension**: Hypertension status (0/1)
-- **Diabetes**: Diabetes status (0/1)
-- **Alcoholism**: Alcoholism status (0/1)
-- **Handcap**: Handicap level (0-4)
-- **SMS_received**: Whether SMS reminder was sent (0/1)
-- **WaitingDays**: Days between scheduling and appointment
-- **appointment_month**: Month of appointment (4-6)
-- **day_of_week_encoded**: Day of week (0=Monday to 6=Sunday)
-- **No-show**: Target variable (0=Attended, 1=No-show)
+⚠️ **Note**: The hyperparameter tuning cells may take several minutes to complete.
 
-### Data Preprocessing
+## 📈 Analysis Workflow
 
-1. **Removed Features**: PatientId, AppointmentID (non-predictive identifiers)
-2. **Binary Encoding**: Gender and No-show columns
-3. **Label Encoding**: 80 unique neighborhoods mapped to integer IDs
-4. **Feature Engineering**:
-   - Calculated WaitingDays from appointment scheduling
-   - Extracted appointment day of week and month
-   - Removed negative waiting times (assumed data collection errors)
-5. **Temporal Features**: Day of week and month encoded
+### Part 1: No-Show Appointments Classification
 
-## 🤖 Model Performance
+1. **Data Loading & Exploration**
+   - Load dataset from Kaggle
+   - Initial data exploration (head, info, describe)
 
-- **Algorithm**: K-Nearest Neighbors (KNN) Classifier
-- **Initial Model** (k=5): ~66.6% accuracy
-- **Hyperparameter Tuning**: Tested k values from 1 to 99
-- **Best Performance**: ~71.5% accuracy (achieved with higher k values)
+2. **Data Preprocessing**
+   - Remove irrelevant features (PatientId, AppointmentID)
+   - Encode categorical variables (Gender, No-show)
+   - Convert date columns to numeric format
 
-### Key Findings
+3. **Feature Engineering**
+   - Create `WaitingDays` (duration between schedule and appointment)
+   - Extract temporal features (day of week, month)
+   - Add interaction features (age × hypertension)
+   - Create boolean features (is_weekend, is_friday)
+   - Categorize age into groups (child, teen, young_adult, adult, middle_aged, senior)
+   - One-hot encode age groups
+   - Encode neighborhoods (80 unique locations)
 
-- The model shows moderate predictive capability for appointment no-shows
-- Performance plateaus around 71-72% accuracy
-- Higher k values (around 20-30+) provide better generalization
+4. **Model Training & Evaluation**
+   - Train KNN classifier with various k values (1-100)
+   - Evaluate model performance on test set
+   - Visualize accuracy vs. k neighbors
 
-### Neighbourhood Lookup Table
+### Part 2: Concrete Strength Regression
 
-The model uses 80 neighborhoods from Vitória, Brazil, each assigned a unique ID:
-- ID 0: AEROPORTO
-- ID 1: ANDORINHAS
-- ... (see notebook for complete mapping)
-- ID 79: VILA RUBIM
+1. **Data Loading & Quality Check**
+   - Load dataset from UCI repository
+   - Check for missing values and duplicates
 
----
+2. **Exploratory Data Analysis**
+   - Distribution analysis of all features
+   - Correlation matrix visualization
+   - Identify key predictors
 
-**Note:** This is an educational project focused on KNN algorithms for classification tasks. The model demonstrates the importance of feature engineering and hyperparameter tuning in machine learning workflows.
+3. **Data Preprocessing**
+   - Train-test split (80/20)
+   - Feature scaling using StandardScaler
+
+4. **Model Development**
+   - Train KNN regressor (initial k=5)
+   - Calculate evaluation metrics (MSE, RMSE, MAE, R²)
+
+5. **Hyperparameter Tuning**
+   - Test k values from 1 to 30
+   - Compare training vs. testing R² scores
+   - Select optimal k value
+
+6. **Final Model Evaluation**
+   - Train final model with optimal k
+   - Generate prediction plots (Actual vs. Predicted)
+   - Analyze residual plots
+
+## 📊 Key Results
+
+### KNN Classification (No-Show Appointments)
+- **Task**: Binary classification
+- **Best Accuracy**: ~80% (varies with k)
+- **Key Findings**: 
+  - 37% of records showed negative waiting times (data quality issue)
+  - Temporal features (day of week, waiting time) are important predictors
+  - Age-hypertension interaction provides useful signal
+
+### KNN Regression (Concrete Strength)
+- **Task**: Regression
+- **Best R² Score**: ~0.87 (optimal k varies, typically 5-15)
+- **Key Findings**:
+  - Cement and Age are strongest predictors
+  - Feature scaling significantly improves performance
+  - Model shows good predictive capability with minimal residual bias
+
+## 🔑 Key Insights
+
+1. **Algorithm Versatility**: KNN performs well for both classification and regression tasks
+2. **Feature Engineering Impact**: Derived features significantly improve model performance
+3. **Scaling Importance**: Feature scaling is crucial for KNN, especially in regression
+4. **Hyperparameter Sensitivity**: Optimal k varies between datasets and tasks
+5. **Interpretability**: KNN's instance-based nature provides good model interpretability
+6. **Computational Cost**: Performance scales with dataset size (trade-off to consider)
+
+## 📦 Dependencies
+
+Key libraries used:
+- pandas
+- numpy
+- scikit-learn
+- matplotlib
+- seaborn
+- kagglehub
+- ucimlrepo
+- tqdm
+
+See `requirements.txt` for complete list.
+
+## 👤 Authors
+Hamisi  
+Isadore
+
+## 📝 License
+
+This project is for educational purposes.
+
